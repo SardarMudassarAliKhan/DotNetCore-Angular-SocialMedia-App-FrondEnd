@@ -2,32 +2,29 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from "./navbar/navbar.component";
+import { AccountService } from './_Services/account.service';
+import { HomeComponent } from "./home/home.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NavbarComponent, HomeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  http = inject(HttpClient);
-  title = 'DotNetCore-Angular-SocialMedia-App';
-
-  users: any;
+  title = 'Social Media App';
+  private accountService = inject(AccountService);
 
   ngOnInit(): void {
-    this.http.get('https://localhost:44383/api/User').subscribe({
-      next: (response) => {
-        console.log(response);
-        this.users = response;
-      },
-      error: (error) => {
-        console.error('Error fetching data:', error);
-      },
-      complete: () => {
-        console.log('Request completed');
-      }
-    });
+    this.setCurrentUser();
+  }
+
+  setCurrentUser() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.accountService.curruntUser.set(JSON.parse(user));
+    }
   }
 }

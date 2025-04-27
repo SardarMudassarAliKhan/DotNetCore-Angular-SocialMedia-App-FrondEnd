@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.angular\\cache\\17.3.16",
+    "\\.angular\\cache\\17.3.16\\vite",
+    "\\.angular\\cache\\17.3.16\\vite\\deps",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\navbar"
+  ],
+  "SelectedNode": "\\src\\app\\navbar\\navbar.component.html",
+  "PreviewInSolutionExplorer": false
+}
