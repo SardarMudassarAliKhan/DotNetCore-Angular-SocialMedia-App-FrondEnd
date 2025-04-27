@@ -1,12 +1,15 @@
-import { NgIf } from '@angular/common';
+import { NgIf, TitleCasePipe } from '@angular/common';
 import { AccountService } from './../_Services/account.service';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Pipe } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FormsModule,NgIf],
+  imports: [FormsModule,RouterLink,BsDropdownModule,RouterLinkActive, TitleCasePipe ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -14,6 +17,8 @@ export class NavbarComponent {
 
   model: any = { username: '', password: '' };
   accountService = inject(AccountService);
+  private router = inject(Router);
+  private toast = inject(ToastrService);
 
   constructor() { }
 
@@ -22,11 +27,12 @@ export class NavbarComponent {
       {
         next: (response) => {
           console.log(response);
-          alert("Login successful")
+          this.router.navigateByUrl('/members');
+          this.toast.success("Login Success")
         },
         error: (error) => {
           console.log(error);
-          alert("Login Faild")
+          this.toast.error(error.error);
         }
       }
     );
@@ -37,11 +43,11 @@ export class NavbarComponent {
       {
         next: (response) => {
           console.log(response);
-          alert("Register successful")
+          this.toast.success("Register Success")
         },
         error: (error) => {
           console.log(error);
-          alert("Register Faild")
+          this.toast.error(error.error);
         }
       }
     );
@@ -49,7 +55,7 @@ export class NavbarComponent {
 
   logout() {
     this.accountService.logout();
-    alert("Logout successful")
+    this.router.navigateByUrl('/');
   }
 
 }
