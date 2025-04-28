@@ -18,5 +18,8 @@ export const routes: Routes = [
             {path: 'messages', component: MessagesComponent},
         ]
     },
+    {path: 'error', loadComponent: () => import('./error/test-error/test-error.component').then(c => c.TestErrorComponent)},
+    {path: 'not-found', loadComponent: () => import('./error/not-fount/not-fount.component').then(c => c.NotFountComponent)},
+    {path: 'server-error', loadComponent: () => import('./error/server-error/server-error.component').then(c => c.ServerErrorComponent)},
     {path: '**', component: HomeComponent, pathMatch: 'full'},
 ];
