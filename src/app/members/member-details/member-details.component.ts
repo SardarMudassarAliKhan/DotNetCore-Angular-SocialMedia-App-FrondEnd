@@ -2,11 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../_Services/member.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from '../../_Models/member';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
+import { Photo } from '../../_Models/photo';
 
 @Component({
   selector: 'app-member-details',
   standalone: true,
-  imports: [],
+  imports: [TabsModule, GalleryModule],
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css'
 })
@@ -15,7 +18,7 @@ export class MemberDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   member?: Member;
-  //images: GalleryItem[] = [];
+  images: GalleryItem[] = [];
 
   ngOnInit() {
     this.loadMember();
@@ -26,11 +29,18 @@ export class MemberDetailsComponent implements OnInit {
     this.memberService.getMember(username).subscribe({
       next: (member) => {
         this.member = member;
-        //this.images = this.getImages(member.photos);
+        this.images = this.getImages(member.photos);
       },
       error: (error) => {
         console.error(error);
       }
     });
+  }
+  getImages(photos: Photo[]): GalleryItem[] {
+    const imageItems: GalleryItem[] = [];
+    for (const photo of photos) {
+      imageItems.push(new ImageItem({ src: photo.url, thumb: photo.url }));
+    }
+    return imageItems;
   }
 }
