@@ -1,5 +1,5 @@
 import { NgIf, TitleCasePipe } from '@angular/common';
-import { AccountService } from './../_Services/account.service';
+import { AccountService } from '../_services/account.service';
 import { Component, inject, Pipe } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -13,49 +13,23 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
-
-  model: any = { username: '', password: '' };
-  accountService = inject(AccountService);
-  private router = inject(Router);
-  private toast = inject(ToastrService);
-
-  constructor() { }
-
-  login(){
-    this.accountService.login(this.model).subscribe(
-      {
-        next: (response) => {
-          console.log(response);
-          this.router.navigateByUrl('/members');
-          this.toast.success("Login Success")
+  export class NavComponent {
+    accountService = inject(AccountService);
+    private router = inject(Router)
+    private toastr = inject(ToastrService);
+    model: any = {};
+  
+    login() {
+      this.accountService.login(this.model).subscribe({
+        next: _ => {
+          this.router.navigateByUrl('/members')
         },
-        error: (error) => {
-          console.log(error);
-          this.toast.error(error.error);
-        }
-      }
-    );
+        error: error => this.toastr.error(error.error)
+      })
+    }
+  
+    logout() {
+      this.accountService.logout();
+      this.router.navigateByUrl('/');
+    }
   }
-
-  register(form: NgForm) {
-    this.accountService.register(form.value).subscribe(
-      {
-        next: (response) => {
-          console.log(response);
-          this.toast.success("Register Success")
-        },
-        error: (error) => {
-          console.log(error);
-          this.toast.error(error.error);
-        }
-      }
-    );
-  }
-
-  logout() {
-    this.accountService.logout();
-    this.router.navigateByUrl('/');
-  }
-
-}

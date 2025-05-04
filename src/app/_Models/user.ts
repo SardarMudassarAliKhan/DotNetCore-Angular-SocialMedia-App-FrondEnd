@@ -1,8 +1,5 @@
 export interface User {
-  id: number;
-  userName: string;
+  username: string;
   token: string;
-  tokenExpires: Date;
-  refreshToken: string;
 }
 
