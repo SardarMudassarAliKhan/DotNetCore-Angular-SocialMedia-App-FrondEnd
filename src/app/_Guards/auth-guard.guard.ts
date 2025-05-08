@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 export const authGuardGuard: CanActivateFn = (route, state) => {
   const accountService = inject(AccountService);
   const toaster = inject(ToastrService);
-  if (accountService.curruntUser()) {
+  if (accountService.currentUser()) {
     return true;
   } else {
     toaster.error("You are not logged in");

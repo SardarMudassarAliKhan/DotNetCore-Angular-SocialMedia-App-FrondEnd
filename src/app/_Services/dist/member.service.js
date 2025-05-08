@@ -31,11 +31,31 @@ var MembersService = /** @class */ (function () {
     };
     MembersService.prototype.updateMember = function (member) {
         var _this = this;
-        debugger;
-        console.log('updateMember', member);
         return this.http.put(this.baseUrl + 'users', member).pipe(rxjs_1.tap(function () {
             _this.members.update(function (members) { return members.map(function (m) { return m.username === member.username
                 ? member : m; }); });
+        }));
+    };
+    MembersService.prototype.setMainPhoto = function (photo) {
+        var _this = this;
+        return this.http.put(this.baseUrl + 'users/set-main-photo/' + photo.id, {}).pipe(rxjs_1.tap(function () {
+            _this.members.update(function (members) { return members.map(function (m) {
+                if (m.photos.includes(photo)) {
+                    m.photoUrl = photo.url;
+                }
+                return m;
+            }); });
+        }));
+    };
+    MembersService.prototype.deletePhoto = function (photo) {
+        var _this = this;
+        return this.http["delete"](this.baseUrl + 'users/delete-photo/' + photo.id).pipe(rxjs_1.tap(function () {
+            _this.members.update(function (members) { return members.map(function (m) {
+                if (m.photos.includes(photo)) {
+                    m.photos = m.photos.filter(function (x) { return x.id !== photo.id; });
+                }
+                return m;
+            }); });
         }));
     };
     MembersService = __decorate([

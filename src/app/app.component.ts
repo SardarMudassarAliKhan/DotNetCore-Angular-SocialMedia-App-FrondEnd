@@ -24,7 +24,7 @@ export class AppComponent {
   setCurrentUser() {
     const user = localStorage.getItem('user');
     if (user) {
-      this.accountService.curruntUser.set(JSON.parse(user));
+      this.accountService.currentUser.set(JSON.parse(user));
     }
   }
 }

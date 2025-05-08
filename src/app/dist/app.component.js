@@ -24,7 +24,7 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.setCurrentUser = function () {
         var user = localStorage.getItem('user');
         if (user) {
-            this.accountService.curruntUser.set(JSON.parse(user));
+            this.accountService.currentUser.set(JSON.parse(user));
         }
     };
     AppComponent = __decorate([
