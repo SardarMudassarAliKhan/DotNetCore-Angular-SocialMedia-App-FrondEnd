@@ -10,7 +10,6 @@ exports.RegisterComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var account_service_1 = require("../_services/account.service");
-var common_1 = require("@angular/common");
 var text_input_component_1 = require("../_forms/text-input/text-input.component");
 var date_picker_component_1 = require("../_forms/date-picker/date-picker.component");
 var router_1 = require("@angular/router");
@@ -74,7 +73,7 @@ var RegisterComponent = /** @class */ (function () {
             standalone: true,
             templateUrl: './register.component.html',
             styleUrl: './register.component.css',
-            imports: [forms_1.ReactiveFormsModule, common_1.NgIf, text_input_component_1.TextInputComponent, date_picker_component_1.DatePickerComponent]
+            imports: [forms_1.ReactiveFormsModule, text_input_component_1.TextInputComponent, date_picker_component_1.DatePickerComponent]
         })
     ], RegisterComponent);
     return RegisterComponent;
