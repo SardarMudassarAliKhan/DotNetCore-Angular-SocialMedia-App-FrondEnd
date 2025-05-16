@@ -11,6 +11,7 @@ var errorr_interceptor_1 = require("./_Interceptos/errorr.interceptor");
 var jwt_interceptor_1 = require("./_Interceptos/jwt.interceptor");
 var ngx_spinner_1 = require("ngx-spinner");
 var loading_interceptor_1 = require("./_Interceptos/loading.interceptor");
+var ngx_timeago_1 = require("ngx-timeago");
 exports.appConfig = {
     providers: [
         router_1.provideRouter(app_routes_1.routes),
@@ -26,6 +27,6 @@ exports.appConfig = {
             tapToDismiss: true,
             enableHtml: true
         }),
-        core_1.importProvidersFrom(ngx_spinner_1.NgxSpinnerModule)
+        core_1.importProvidersFrom(ngx_spinner_1.NgxSpinnerModule, ngx_timeago_1.TimeagoModule.forRoot())
     ]
 };

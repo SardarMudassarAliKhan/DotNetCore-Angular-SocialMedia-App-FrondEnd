@@ -9,6 +9,7 @@ import { errorInterceptor } from './_Interceptos/errorr.interceptor';
 import { jwtInterceptor } from './_Interceptos/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from './_Interceptos/loading.interceptor';
+import { TimeagoModule } from 'ngx-timeago';
 
 export const appConfig: ApplicationConfig = {
   providers:
@@ -30,6 +31,7 @@ export const appConfig: ApplicationConfig = {
     ),
     importProvidersFrom(    
       NgxSpinnerModule,
+      TimeagoModule.forRoot()
     )
   ]
 

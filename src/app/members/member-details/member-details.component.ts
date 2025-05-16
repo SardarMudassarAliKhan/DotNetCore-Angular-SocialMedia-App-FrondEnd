@@ -5,42 +5,36 @@ import { Member } from '../../_models/member';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { Photo } from '../../_models/photo';
+import { TimeagoModule } from 'ngx-timeago';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-member-details',
   standalone: true,
-  imports: [TabsModule, GalleryModule],
+  imports: [TabsModule, GalleryModule, TimeagoModule, DatePipe],
   templateUrl: './member-details.component.html',
   styleUrl: './member-details.component.css'
 })
 export class MemberDetailsComponent implements OnInit {
   private memberService = inject(MembersService);
   private route = inject(ActivatedRoute);
-
   member?: Member;
   images: GalleryItem[] = [];
 
-  ngOnInit() {
-    this.loadMember();
+  ngOnInit(): void {
+    this.loadMember()
   }
 
   loadMember() {
-    const username = this.route.snapshot.paramMap.get('username')!;
+    const username = this.route.snapshot.paramMap.get('username');
+    if (!username) return;
     this.memberService.getMember(username).subscribe({
-      next: (member) => {
+      next: member => {
         this.member = member;
-        this.images = this.getImages(member.photos);
-      },
-      error: (error) => {
-        console.error(error);
+        member.photos.map(p => {
+          this.images.push(new ImageItem({src: p.url, thumb: p.url}))
+        })
       }
-    });
-  }
-  getImages(photos: Photo[]): GalleryItem[] {
-    const imageItems: GalleryItem[] = [];
-    for (const photo of photos) {
-      imageItems.push(new ImageItem({ src: photo.url, thumb: photo.url }));
-    }
-    return imageItems;
+    })
   }
 }

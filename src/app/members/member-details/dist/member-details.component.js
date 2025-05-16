@@ -12,6 +12,8 @@ var member_service_1 = require("../../_services/member.service");
 var router_1 = require("@angular/router");
 var tabs_1 = require("ngx-bootstrap/tabs");
 var ng_gallery_1 = require("ng-gallery");
+var ngx_timeago_1 = require("ngx-timeago");
+var common_1 = require("@angular/common");
 var MemberDetailsComponent = /** @class */ (function () {
     function MemberDetailsComponent() {
         this.memberService = core_1.inject(member_service_1.MembersService);
@@ -24,29 +26,22 @@ var MemberDetailsComponent = /** @class */ (function () {
     MemberDetailsComponent.prototype.loadMember = function () {
         var _this = this;
         var username = this.route.snapshot.paramMap.get('username');
+        if (!username)
+            return;
         this.memberService.getMember(username).subscribe({
             next: function (member) {
                 _this.member = member;
-                _this.images = _this.getImages(member.photos);
-            },
-            error: function (error) {
-                console.error(error);
+                member.photos.map(function (p) {
+                    _this.images.push(new ng_gallery_1.ImageItem({ src: p.url, thumb: p.url }));
+                });
             }
         });
-    };
-    MemberDetailsComponent.prototype.getImages = function (photos) {
-        var imageItems = [];
-        for (var _i = 0, photos_1 = photos; _i < photos_1.length; _i++) {
-            var photo = photos_1[_i];
-            imageItems.push(new ng_gallery_1.ImageItem({ src: photo.url, thumb: photo.url }));
-        }
-        return imageItems;
     };
     MemberDetailsComponent = __decorate([
         core_1.Component({
             selector: 'app-member-details',
             standalone: true,
-            imports: [tabs_1.TabsModule, ng_gallery_1.GalleryModule],
+            imports: [tabs_1.TabsModule, ng_gallery_1.GalleryModule, ngx_timeago_1.TimeagoModule, common_1.DatePipe],
             templateUrl: './member-details.component.html',
             styleUrl: './member-details.component.css'
         })

@@ -9,16 +9,31 @@ exports.__esModule = true;
 exports.MemberListComponent = void 0;
 var core_1 = require("@angular/core");
 var member_card_component_1 = require("../member-card/member-card.component");
+var pagination_1 = require("ngx-bootstrap/pagination");
+var forms_1 = require("@angular/forms");
+var buttons_1 = require("ngx-bootstrap/buttons");
 var member_service_1 = require("../../_services/member.service");
 var MemberListComponent = /** @class */ (function () {
     function MemberListComponent() {
         this.memberService = core_1.inject(member_service_1.MembersService);
+        this.genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }];
     }
     MemberListComponent.prototype.ngOnInit = function () {
-        this.loadMembers();
+        if (!this.memberService.paginatedResult())
+            this.loadMembers();
     };
     MemberListComponent.prototype.loadMembers = function () {
         this.memberService.getMembers();
+    };
+    MemberListComponent.prototype.resetFilters = function () {
+        this.memberService.resetUserParams();
+        this.loadMembers();
+    };
+    MemberListComponent.prototype.pageChanged = function (event) {
+        if (this.memberService.userParams().pageNumber != event.page) {
+            this.memberService.userParams().pageNumber = event.page;
+            this.loadMembers();
+        }
     };
     MemberListComponent = __decorate([
         core_1.Component({
@@ -26,7 +41,7 @@ var MemberListComponent = /** @class */ (function () {
             standalone: true,
             templateUrl: './member-list.component.html',
             styleUrl: './member-list.component.css',
-            imports: [member_card_component_1.MemberCardComponent]
+            imports: [member_card_component_1.MemberCardComponent, pagination_1.PaginationModule, forms_1.FormsModule, buttons_1.ButtonsModule]
         })
     ], MemberListComponent);
     return MemberListComponent;

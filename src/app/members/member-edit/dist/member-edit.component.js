@@ -8,12 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.MemberEditComponent = void 0;
 var core_1 = require("@angular/core");
+var account_service_1 = require("../../_services/account.service");
 var tabs_1 = require("ngx-bootstrap/tabs");
 var forms_1 = require("@angular/forms");
 var ngx_toastr_1 = require("ngx-toastr");
-var account_service_1 = require("../../_services/account.service");
-var member_service_1 = require("../../_services/member.service");
 var photo_editor_component_1 = require("../photo-editor/photo-editor.component");
+var common_1 = require("@angular/common");
+var ngx_timeago_1 = require("ngx-timeago");
+var member_service_1 = require("../../_services/member.service");
 var MemberEditComponent = /** @class */ (function () {
     function MemberEditComponent() {
         this.accountService = core_1.inject(account_service_1.AccountService);
@@ -31,7 +33,6 @@ var MemberEditComponent = /** @class */ (function () {
     };
     MemberEditComponent.prototype.loadMember = function () {
         var _this = this;
-        debugger;
         var user = this.accountService.currentUser();
         if (!user)
             return;
@@ -50,6 +51,9 @@ var MemberEditComponent = /** @class */ (function () {
             }
         });
     };
+    MemberEditComponent.prototype.onMemberChange = function (event) {
+        this.member = event;
+    };
     __decorate([
         core_1.ViewChild('editForm')
     ], MemberEditComponent.prototype, "editForm");
@@ -60,9 +64,9 @@ var MemberEditComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'app-member-edit',
             standalone: true,
-            imports: [tabs_1.TabsModule, forms_1.FormsModule, photo_editor_component_1.PhotoEditorComponent],
             templateUrl: './member-edit.component.html',
-            styleUrl: './member-edit.component.css'
+            styleUrl: './member-edit.component.css',
+            imports: [tabs_1.TabsModule, forms_1.FormsModule, photo_editor_component_1.PhotoEditorComponent, common_1.DatePipe, ngx_timeago_1.TimeagoModule]
         })
     ], MemberEditComponent);
     return MemberEditComponent;
